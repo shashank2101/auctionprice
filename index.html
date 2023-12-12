@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif; 
+    background-color: #f4f4f4;
+    text-align: center;
+    margin: 20px;
+  }
+  
+  button {
+    margin: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+</style>
+<body>
+
+<button onclick="predictCategory('Cars')">Cars</button>
+<button onclick="predictCategory('Houses')">Houses</button>
+<button onclick="predictCategory('Arts')">Arts</button>
+<button onclick="predictCategory('IPL Players')">IPL Players</button>
+
+<button onclick="predict()">Predict</button>
+
+<p id="output"></p>
+
+<script>
+  function predictCategory(category) {
+    fetch('/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('output').innerText = data.result;
+    });
+  }
+
+  function predict() {
+    fetch('/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ category: 'General' }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('output').innerText = data.result;
+    });
+  }
+</script>
+
+</body>
+</html>
